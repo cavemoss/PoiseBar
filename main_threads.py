@@ -26,47 +26,11 @@ class Recovery:
                 time.sleep(REFRESH_RATE)
 
 
-class Push:
+class Pressure:
 
     @staticmethod
     def start():
-
-        while True:
-            if Action.push is True:
-                def power():
-                    if Action.is_right is True:
-                        return (Stats.max_hp * 0.1) * 2
-                    else:
-                        return Stats.max_hp * 0.1
-
-                if Action.push_value < power():
-                    Action.current_hp = min(Action.current_hp + power()/20, Stats.max_hp)
-                    Action.push_value += power()/20
-                    time.sleep(REFRESH_RATE)
-                else:
-                    time.sleep(REFRESH_RATE)
-            else:
-                time.sleep(REFRESH_RATE)
-
-
-class OffGuard:
-
-    @staticmethod
-    def start():
-
-        while True:
-            if Action.stagger is True:
-                Action.off_guard = None
-                break
-            elif Action.push is True:
-                if Action.current_hp == Stats.max_hp:
-                    Action.off_guard = True
-                    time.sleep(2.5)
-                    Action.off_guard = False
-                else:
-                    time.sleep(REFRESH_RATE)
-            else:
-                time.sleep(REFRESH_RATE)
+        pass
 
 
 class Stun:
@@ -109,7 +73,14 @@ class AnimationFlash:
 
 class Attack:
 
-    def __init__(self, atk=None, dmg=1, stun=0, trig='c'):
+    def __init__(self, tag=None, atk=None, dmg=1, stun=0, trig='c'):
+        if trig == 'c':
+            self.name = 'critical_atk'
+        elif tag is None:
+            self.name = f'custom_atk_{len(Action.attacks)}'
+        else:
+            self.name = tag
+
         self.damage = atk
         self.hurt = dmg
         self.stun_duration = stun
@@ -119,6 +90,7 @@ class Attack:
         if self.damage is None:
             self.damage = Stats.max_hp
         Action.attacks.update({self.binding: self.strike})
+        print(self.name)
 
     def strike(self):
         if Action.stagger is False:

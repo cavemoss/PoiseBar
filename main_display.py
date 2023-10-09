@@ -39,10 +39,6 @@ class Window:
     arrows = canvas.create_image(0, 0, anchor=NW)
 
     root.bind('<Key>', Action.execute)
-    root.bind('<Motion>', Action.move)
-    root.bind('<Button-1>', Action.leftclick)
-    root.bind('<Button-3>', Action.rightclick)
-    root.bind('<ButtonRelease>', Action.release)
 
     @classmethod
     def refresh(cls):
@@ -84,19 +80,14 @@ class StatsWindow:
     stun_label.grid(row=2, column=2)
     Label(stats, text='sec', font=('Consolas', 15), bg='black', fg='white').grid(row=2, column=3)
 
-    Label(stats, text='{:>15}'.format('Off Guard:'), font=('Consolas', 15), bg='black', fg='white').grid(row=3, column=1)
-    off_label = Label(stats, font=('Consolas', 15), bg='black', fg='white', width=10, height=1)
-    off_label.grid(row=3, column=2)
-
-    Label(stats, text='{:>15}'.format('Stagger:'), font=('Consolas', 15), bg='black', fg='white').grid(row=4, column=1)
+    Label(stats, text='{:>15}'.format('Stagger:'), font=('Consolas', 15), bg='black', fg='white').grid(row=3, column=1)
     stagger_label = Label(stats, font=('Consolas', 15), bg='black', fg='white', width=10, height=1)
-    stagger_label.grid(row=4, column=2)
+    stagger_label.grid(row=3, column=2)
 
     @classmethod
     def refresh(cls):
         cls.hp_label.config(text=str(int(Action.current_hp)) + '/' + str(Stats.max_hp))
         cls.stun_label.config(text='{:.2f}'.format(Action.stun_timer))
-        cls.off_label.config(text=str(Action.off_guard))
         cls.stagger_label.config(text=str(Action.stagger))
 
         Window.root.after(100, cls.refresh)
