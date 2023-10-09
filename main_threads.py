@@ -73,24 +73,15 @@ class AnimationFlash:
 
 class Attack:
 
-    def __init__(self, tag=None, atk=None, dmg=1, stun=0, trig='c'):
-        if trig == 'c':
-            self.name = 'critical_atk'
-        elif tag is None:
-            self.name = f'custom_atk_{len(Action.attacks)}'
-        else:
-            self.name = tag
-
+    def __init__(self, atk=None, dmg=1, stun=0, trig='c'):
         self.damage = atk
         self.hurt = dmg
         self.stun_duration = stun
         self.binding = trig
 
-    def add(self):
         if self.damage is None:
             self.damage = Stats.max_hp
         Action.attacks.update({self.binding: self.strike})
-        print(self.name)
 
     def strike(self):
         if Action.stagger is False:
